@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2012j
+VERSION=2014e
 RELEASE=1
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
@@ -12,23 +12,36 @@ HOMEPAGE="http://www.iana.org/time-zones"
 SRC_URI="http://www.iana.org/time-zones/repository/releases/tzcode${VERSION}.tar.gz
          http://www.iana.org/time-zones/repository/releases/tzdata${VERSION}.tar.gz"
 SRC_DIR=.
+PATCH_URI="2014e-cygwin-stime.patch"
 
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake TZDIR="/usr/share/zoneinfo" \
-		CC=${CC} CFLAGS="${CFLAGS}" AR=${AR} RANLIB=${RANLIB}
-
+	cygmake all date \
+		TZDIR="/usr/share/zoneinfo" \
+		CC=${CC} AR=${AR} RANLIB=${RANLIB} \
+		LOCALTIME="America/New_York" \
+		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_ADJTIME=0 -DHAVE_STDINT_H=1 -DHAVE_SETTIMEOFDAY=3 -DTZDIR=\\\"/usr/share/zoneinfo\\\""
 }
 
 src_install() {
 	cd ${B}
-	cyginstall -j1 \
-		TOPDIR=${D}/usr \
-		TZDIR=${D}/usr/share/zoneinfo \
-		ETCDIR=${D}/usr/sbin \
-		BINDIR=${D}/usr/bin \
-		MANDIR=${D}/usr/share/man \
-		LIBDIR=${D}/usr/lib \
-		$(cross_compiling && echo -n ZIC=/usr/sbin/zic)
+	cross_compiling && ZIC=/usr/sbin/zic || ZIC=./zic
+	FILES="africa antarctica asia australasia europe northamerica southamerica"
+	FILES+=" pacificnew etcetera backward systemv factory"
+
+	insinto /usr/share/zoneinfo
+	doins iso3166.tab zone.tab
+	${ZIC} -y ./yearistype -d ${D}/usr/share/zoneinfo -L /dev/null -p America/New_York $FILES
+	${ZIC} -y ./yearistype -d ${D}/usr/share/zoneinfo/posix -L /dev/null $FILES
+	${ZIC} -y ./yearistype -d ${D}/usr/share/zoneinfo/right -L leapseconds $FILES
+
+	dobin tzselect
+	dosbin zdump.exe zic.exe
+
+	#dolib libtz.a
+	#doman *.3
+
+	doman *.[58]
+	sed -i -e 's|/usr/local/etc|/usr/share|g' ${D}/usr/share/man/man*/*
 }
