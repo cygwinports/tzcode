@@ -1,6 +1,6 @@
---- origsrc/date.c	2013-09-04 21:07:31.000000000 -0500
-+++ src/date.c	2014-06-24 00:15:36.978050400 -0500
-@@ -361,12 +361,19 @@ reset(const time_t newt, const int nflag
+--- origsrc/date.c	2014-08-25 21:41:21.000000000 -0500
++++ src/date.c	2014-10-13 20:58:30.770502300 -0500
+@@ -348,12 +348,19 @@ reset(time_t newt, bool nflag)
  		struct utmpx	after;
  	} sx;
  #endif
@@ -11,7 +11,7 @@
  	/*
  	** Wouldn't it be great if stime returned the old time?
  	*/
- 	(void) time(&oldt);
+ 	oldt = time(NULL);
 +#ifdef __CYGWIN__
 +	if (settimeofday(&tv, NULL) != 0)
 +#else
