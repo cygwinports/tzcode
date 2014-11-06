@@ -22,25 +22,32 @@ src_compile() {
 		CC=${CC} AR=${AR} RANLIB=${RANLIB} \
 		LOCALTIME="America/New_York" \
 		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_ADJTIME=0 -DHAVE_STDINT_H=1 -DHAVE_SETTIMEOFDAY=3 -DTZDIR=\\\"/usr/share/zoneinfo\\\""
+
+	cross_compiling && zic=/usr/sbin/zic || zic=./zic
+	files="africa antarctica asia australasia europe northamerica southamerica"
+	files+=" pacificnew etcetera backward systemv factory"
+
+	mkdir -p zoneinfo/{,posix,right}
+	${zic} -y ./yearistype -d zoneinfo -L /dev/null -p America/New_York $files
+	${zic} -y ./yearistype -d zoneinfo/posix -L /dev/null $files
+	${zic} -y ./yearistype -d zoneinfo/right -L leapseconds $files
 }
 
 src_install() {
 	cd ${B}
-	cross_compiling && ZIC=/usr/sbin/zic || ZIC=./zic
-	FILES="africa antarctica asia australasia europe northamerica southamerica"
-	FILES+=" pacificnew etcetera backward systemv factory"
+	dodir /usr/share
+	cp -pr zoneinfo ${D}/usr/share/
 
 	insinto /usr/share/zoneinfo
 	doins iso3166.tab zone.tab
-	${ZIC} -y ./yearistype -d ${D}/usr/share/zoneinfo -L /dev/null -p America/New_York $FILES
-	${ZIC} -y ./yearistype -d ${D}/usr/share/zoneinfo/posix -L /dev/null $FILES
-	${ZIC} -y ./yearistype -d ${D}/usr/share/zoneinfo/right -L leapseconds $FILES
 
 	dobin tzselect
 	dosbin zdump.exe zic.exe
 
 	#dolib libtz.a
 	#doman *.3
+
+	dodoc Theory *.htm
 
 	doman *.[58]
 	sed -i -e 's|/usr/local/etc|/usr/share|g' ${D}/usr/share/man/man*/*
