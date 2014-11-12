@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2014i
+VERSION=2014j
 RELEASE=1
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
@@ -41,11 +41,12 @@ src_install() {
 	insinto /usr/share/zoneinfo
 	doins iso3166.tab zone.tab
 
-	dobin tzselect
+	# FIXME: dobin
+	dosbin tzselect
 	dosbin zdump.exe zic.exe
 
-	#dolib libtz.a
-	#doman *.3
+	dolib libtz.a
+	doman *.3
 
 	dodoc Theory *.htm
 
