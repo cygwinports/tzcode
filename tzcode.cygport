@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2014j
+VERSION=2015a
 RELEASE=1
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
@@ -12,7 +12,6 @@ HOMEPAGE="http://www.iana.org/time-zones"
 SRC_URI="http://www.iana.org/time-zones/repository/releases/tzcode${VERSION}.tar.gz
          http://www.iana.org/time-zones/repository/releases/tzdata${VERSION}.tar.gz"
 SRC_DIR=.
-PATCH_URI="2014h-cygwin-stime.patch"
 
 src_compile() {
 	lndirs
