@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2015b
+VERSION=2015c
 RELEASE=1
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
@@ -20,7 +20,7 @@ src_compile() {
 		TZDIR="/usr/share/zoneinfo" \
 		CC=${CC} AR=${AR} RANLIB=${RANLIB} \
 		LOCALTIME="America/New_York" \
-		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_ADJTIME=0 -DHAVE_STDINT_H=1 -DHAVE_SETTIMEOFDAY=3 -DTZDIR=\\\"/usr/share/zoneinfo\\\""
+		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_ADJTIME=0 -DHAVE_STDINT_H=1 -DHAVE_SETTIMEOFDAY=3 -DTM_GMTOFF=tm_gmtoff -DTM_ZONE=tm_zone -DTZDIR=\\\"/usr/share/zoneinfo\\\""
 
 	cross_compiling && zic=/usr/sbin/zic || zic=./zic
 	files="africa antarctica asia australasia europe northamerica southamerica"
