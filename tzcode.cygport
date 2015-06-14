@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2015d
+VERSION=2015e
 RELEASE=1
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
