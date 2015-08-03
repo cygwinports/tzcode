@@ -1,6 +1,6 @@
 NAME="tzcode"
 VERSION=2015e
-RELEASE=1
+RELEASE=2
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
 DESCRIPTION="The Time Zone Database (often called tz or zoneinfo) contains code
@@ -37,10 +37,9 @@ src_install() {
 	cp -pr zoneinfo ${D}/usr/share/
 
 	insinto /usr/share/zoneinfo
-	doins iso3166.tab zone.tab
+	doins iso3166.tab zone.tab zone1970.tab
 
-	# FIXME: dobin
-	dosbin tzselect
+	dobin tzselect
 	dosbin zdump.exe zic.exe
 
 	dolib libtz.a
