@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2016a
+VERSION=2016b
 RELEASE=1
 CATEGORY="Base"
 SUMMARY="Time Zone Database"
@@ -19,7 +19,7 @@ src_compile() {
 	cygmake all date \
 		TZDIR="/usr/share/zoneinfo" \
 		CC=${CC} AR=${AR} RANLIB=${RANLIB} \
-		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DTM_GMTOFF=tm_gmtoff -DTM_ZONE=tm_zone -DTZDIR=\\\"/usr/share/zoneinfo\\\""
+		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_STRFTIME_L=0 -DTM_GMTOFF=tm_gmtoff -DTM_ZONE=tm_zone -DTZDIR=\\\"/usr/share/zoneinfo\\\""
 
 	cross_compiling && zic=/usr/sbin/zic || zic=./zic
 	files="africa antarctica asia australasia europe northamerica southamerica"
