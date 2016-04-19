@@ -9,8 +9,7 @@ locations around the globe. It is updated periodically to reflect changes made
 by political bodies to time zone boundaries, UTC offsets, and daylight-saving
 rules."
 HOMEPAGE="http://www.iana.org/time-zones"
-SRC_URI="http://www.iana.org/time-zones/repository/releases/tzcode${VERSION}.tar.gz
-         http://www.iana.org/time-zones/repository/releases/tzdata${VERSION}.tar.gz"
+SRC_URI="http://www.iana.org/time-zones/repository/releases/tzcode${VERSION}.tar.gz"
 SRC_DIR=.
 
 REQUIRES="tzdata"
@@ -18,7 +17,7 @@ REQUIRES="tzdata"
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake all date \
+	cygmake tzselect zic zdump date \
 		TZDIR="/usr/share/zoneinfo" \
 		CC=${CC} AR=${AR} RANLIB=${RANLIB} \
 		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_STRFTIME_L=0 -DTM_GMTOFF=tm_gmtoff -DTM_ZONE=tm_zone -DTZDIR=\\\"/usr/share/zoneinfo\\\""
