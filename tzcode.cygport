@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2016e
+VERSION=2016g
 RELEASE=1
 CATEGORY="Utils"
 SUMMARY="Time Zone Database utilities"
@@ -19,6 +19,7 @@ src_compile() {
 	cd ${B}
 	cygmake tzselect zic zdump date \
 		TZDIR="/usr/share/zoneinfo" \
+		VERSION_DEPS= \
 		CC=${CC} AR=${AR} RANLIB=${RANLIB} \
 		CFLAGS="${CFLAGS} -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_STRFTIME_L=0 -DTM_GMTOFF=tm_gmtoff -DTM_ZONE=tm_zone -DTZDIR=\\\"/usr/share/zoneinfo\\\""
 }
