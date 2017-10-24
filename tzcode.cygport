@@ -1,5 +1,5 @@
 NAME="tzcode"
-VERSION=2017a
+VERSION=2017c
 RELEASE=1
 CATEGORY="Utils"
 SUMMARY="Time Zone Database utilities"
